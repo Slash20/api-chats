@@ -85,6 +85,7 @@ DELETE /chats/{id}
 ## Запуск проекта через Docker
 
 ### 1. Собрать и запустить контейнеры
+### Предварительно должен быть запущен Docker Desktop
 
 ```shell
 docker compose up -d --build
@@ -106,4 +107,23 @@ docker compose exec api alembic upgrade head
 ### 3. Открыть API
 
 * Swagger: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### Примечание: если нужно посмотреть данные в базе данных в рамках Docker, то нужно запустить следующие команды (делается после проведения миграций):
+
+### 1. Заходим в базу данных в рамках Docker:
+```shell
+docker compose exec db psql -U postgres -d chat_db
+```
+
+### 2. Когда зашли в базу данных, смотрим, что в ней хранится:
+
+Чаты
+```sql
+select * from chats;
+```
+
+Сообщения
+```sql
+select * from messages;
+```
 
