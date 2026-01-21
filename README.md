@@ -70,7 +70,7 @@ DELETE /chats/{id}
 
 ---
 
-## ⚙️ Технологии
+## Технологии
 
 * Python 3.11
 * FastAPI
@@ -86,15 +86,21 @@ DELETE /chats/{id}
 
 ### 1. Собрать и запустить контейнеры
 
+```shell
 docker compose up -d --build
+```
 Проверить статус:
 
+```shell
 docker compose ps
+```
 ---
 
 ### 2. Применить миграции
 
+```shell
 docker compose exec api alembic upgrade head
+```
 ---
 
 ### 3. Открыть API
