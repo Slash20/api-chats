@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    container_name: chat_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL_ASYNC: postgresql+asyncpg://postgres:admin@db:5432/chat_db
+    volumes:
+      - .:/app
+    restart: always
+
+  db:
+    image: postgres:15
+    container_name: chat_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: chat_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:

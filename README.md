@@ -1,0 +1,103 @@
+# Chat API
+
+Тестовое задание: API для чатов и сообщений.
+
+Проект реализован на FastAPI, использует PostgreSQL, SQLAlchemy, Alembic, полностью обёрнут в Docker / docker-compose.
+
+---
+
+## Функциональность
+
+### Модели
+
+* Chat
+
+  * id: int
+  * title: str (1–200, не пустой)
+  * created_at: datetime
+
+* Message
+
+  * id: int
+  * chat_id: int (FK → Chat)
+  * text: str (1–5000, не пустой)
+  * created_at: datetime
+
+Связь один ко многим
+
+---
+
+### API эндпоинты
+
+#### 1️⃣ Создать чат
+
+POST /chats/
+
+{
+  "title": "My chat"
+}
+
+В качестве ответа возвращает данные о созданном чате.
+
+---
+
+#### 2️⃣ Отправить сообщение
+
+POST /chats/{id}/messages/
+
+{
+  "text": "Hi"
+}
+* Возвращает 404, если чат не существует
+
+---
+
+#### 3️⃣ Получить чат и последние сообщения
+
+GET /chats/{id}
+
+* limit: по умолчанию 20, максимум 100
+* Возвращает сообщения, отсортированные по created_at
+
+---
+
+#### 4️⃣ Удалить чат
+
+DELETE /chats/{id}
+
+* удаляет чат и все сообщения каскадно
+* В качестве ответа возвращает 204 No Content
+
+---
+
+## ⚙️ Технологии
+
+* Python 3.11
+* FastAPI
+* SQLAlchemy
+* PostgreSQL
+* Alembic
+* Docker / docker-compose
+* Pydantic
+
+---
+
+## Запуск проекта через Docker
+
+### 1. Собрать и запустить контейнеры
+
+docker compose up -d --build
+Проверить статус:
+
+docker compose ps
+---
+
+### 2. Применить миграции
+
+docker compose exec api alembic upgrade head
+---
+
+### 3. Открыть API
+
+* Swagger: [http://localhost:8000/docs](http://localhost:8000/docs)
+
